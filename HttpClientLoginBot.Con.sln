@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpClientLoginBot.Con", "HttpClientLoginBot.Con\HttpClientLoginBot.Con.csproj", "{333CE6B4-179A-4D6F-983B-D0398BC9CDB3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HttpClientLoginBot.Con", "HttpClientLoginBot.Con\HttpClientLoginBot.Con.csproj", "{333CE6B4-179A-4D6F-983B-D0398BC9CDB3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpClientLoginBot.Bll", "HttpClientLoginBot.Bll\HttpClientLoginBot.Bll.csproj", "{9A5753C6-F4CB-46D1-AE51-BC76D35B9A12}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HttpClientLoginBot.Bll", "HttpClientLoginBot.Bll\HttpClientLoginBot.Bll.csproj", "{9A5753C6-F4CB-46D1-AE51-BC76D35B9A12}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpClientLoginBot.Tests", "HttpClientLoginBot.Tests\HttpClientLoginBot.Tests.csproj", "{98A8F130-D4AB-4B2B-B322-D2277CD7FC70}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{9A5753C6-F4CB-46D1-AE51-BC76D35B9A12}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A5753C6-F4CB-46D1-AE51-BC76D35B9A12}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A5753C6-F4CB-46D1-AE51-BC76D35B9A12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98A8F130-D4AB-4B2B-B322-D2277CD7FC70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98A8F130-D4AB-4B2B-B322-D2277CD7FC70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98A8F130-D4AB-4B2B-B322-D2277CD7FC70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98A8F130-D4AB-4B2B-B322-D2277CD7FC70}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
