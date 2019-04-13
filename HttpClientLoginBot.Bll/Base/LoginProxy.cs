@@ -13,6 +13,8 @@ namespace HttpClientLoginBot.Bll.Base
         protected int _port;
         protected readonly WebProxy _webProxy;
 
+        public WebProxy WebProxy { get { return _webProxy; } }
+
 
 
         public LoginProxy(string host,string port)

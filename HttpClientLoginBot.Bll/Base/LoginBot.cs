@@ -66,17 +66,9 @@ namespace HttpClientLoginBot.Bll.Base
             _proxyList = proxyList;
         }
 
-        public virtual LoginResult Login(string url)
+        public async void Run()
         {
-            LoginResult result = null;
-            return result;
+            throw new NotImplementedException();
         }
-
-        public virtual void SaveResult(LoginResult result)
-        {
-
-        }
-
-
     }
 }
