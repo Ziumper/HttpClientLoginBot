@@ -2,31 +2,40 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace HttpClientLoginBot.Bll.Base
 {
-    public abstract class LoginClient : IDisposable,ILoginClient
+    public class LoginClient : ILoginClient
     {
-        private readonly HttpClient _client;
-        private readonly List<LoginProxy> _proxyList;
         private readonly LoginCredential _loginCredential;
 
-        public LoginClient(List<LoginProxy> proxyList,LoginCredential loginCredential)
+        public LoginProxy ActiveProxy { get; set; }
+
+        public LoginClient(LoginCredential loginCredential)
         {
-            _proxyList = proxyList;
-            _client = new HttpClient();
             _loginCredential = loginCredential;
         }
 
-        public void Dispose()
+        public async Task<LoginResult> Login(string url,string body)
         {
-            _client.Dispose();
-        }
+            var uri = new Uri(url);
+            var stringContent = new StringContent(body);
+            HttpClient httpClient = null;
 
-        public LoginResult Login(string url)
-        {
+            if (ActiveProxy != null)
+            {
+                var httpHandler = new HttpClientHandler();
+                httpHandler.Proxy = ActiveProxy.WebProxy;
+                httpClient = new HttpClient(httpHandler);
+            } else
+            {
+                httpClient = new HttpClient();
+            }
 
-            throw new NotImplementedException();
+            var response  = await httpClient.PostAsync(uri, stringContent);
+            LoginResult result = new LoginResult(_loginCredential.Username,_loginCredential.Password, response.IsSuccessStatusCode, response);
+            return result;
         }
     }
 }

@@ -66,9 +66,20 @@ namespace HttpClientLoginBot.Bll.Base
             _proxyList = proxyList;
         }
 
-        public async void Run()
+        protected virtual string CreateRequestBody()
         {
-            throw new NotImplementedException();
+            return String.Empty;
+        }
+
+        public async void Run(string url)
+        {
+            foreach(var credential in _credentials)
+            {
+                var client = new LoginClient(credential);
+                var body = CreateRequestBody();
+                var result = await client.Login(url, body);
+            }
+            
         }
     }
 }

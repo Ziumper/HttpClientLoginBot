@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Threading.Tasks;
 
 namespace HttpClientLoginBot.Bll.Base
 {
     public interface ILoginClient
     {
-        LoginResult Login(string url);
+        Task<LoginResult> Login(string url,string body);
     }
 }
