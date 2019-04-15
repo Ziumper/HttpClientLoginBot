@@ -4,6 +4,6 @@ namespace HttpClientLoginBot.Bll.Base
 {
     public interface ILoginClient
     {
-        Task<LoginResult> Login(string url,string body);
+        Task<LoginResult> Login(LoginCredential loginCredential);
     }
 }

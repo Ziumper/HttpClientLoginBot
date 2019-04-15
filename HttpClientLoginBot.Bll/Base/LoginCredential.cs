@@ -7,16 +7,22 @@ namespace HttpClientLoginBot.Bll.Base
 {
     public class LoginCredential
     {
-        protected readonly string _username;
-        protected readonly string _password;
+        public string Username { get; set; }
+        public string Password { get ; set; }
 
-        public string Username { get { return _username; } }
-        public string Password { get { return _password; } }
-        public bool UseProxy { }
+        public string RequestBody {get; set;}
+        public string Url {get;set;}
+
+        public virtual StringContent StringContent { get {
+            return new StringContent(RequestBody,Encoding.UTF8,"application/x-www-form-urlencoded");
+        }}
+
+        public virtual Uri Uri {get {return new Uri(Url);}}
+        
 
         public LoginCredential(string username, string password){
-            _username = username;
-            _password = password;
+            Username = username;
+            Password = password;
         }
 
         
