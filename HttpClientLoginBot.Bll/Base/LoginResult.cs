@@ -19,8 +19,10 @@ namespace HttpClientLoginBot.Bll.Base {
         {
             if(IsSucces)
             {
-
+                //TODO Save file with result;
             }
         }
+
+        
     }
 }

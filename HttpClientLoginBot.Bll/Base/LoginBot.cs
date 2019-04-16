@@ -18,7 +18,6 @@ namespace HttpClientLoginBot.Bll.Base {
             string pathToCredentials,
             string pathToProxyFileList,
             string resultFileName,
-            string url,
             ILoginClient loginClient,
             List<LoginCredential> credentials,
             ProxyList proxyList
