@@ -5,21 +5,14 @@ using System.Text;
 
 namespace HttpClientLoginBot.Bll.Base {
     public class LoginResult {
-        private readonly string _username;
-        private readonly string _password;
+        public string Username { get; set; }
+        public string Passwrod { get; set; }
+        public HttpResponseMessage Response {get;set;}
+        public bool IsSucces { get; set; }
 
-        private readonly HttpResponseMessage _response;
-
-        public HttpResponseMessage Response {
-            get { return _response; }
-        }
-
-        public bool IsSucces { get { return _response.IsSuccessStatusCode; } }
-
-        public LoginResult (string username, string password, HttpResponseMessage response) {
-            _username = username;
-            _password = password;
-            _response = response;
+        public LoginResult()
+        {
+            IsSucces = false;
         }
 
         public void Save(string resultFileName)
