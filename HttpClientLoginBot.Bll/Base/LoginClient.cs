@@ -18,6 +18,7 @@ namespace HttpClientLoginBot.Bll.Base
             {
                 var httpHandler = new HttpClientHandler();
                 httpHandler.Proxy = ActiveProxy.WebProxy;
+                httpHandler.UseProxy = true;
                 httpClient = new HttpClient(httpHandler);
             } else
             {

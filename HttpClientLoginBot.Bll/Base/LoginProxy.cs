@@ -14,8 +14,7 @@ namespace HttpClientLoginBot.Bll.Base
         protected readonly WebProxy _webProxy;
 
         public WebProxy WebProxy { get { return _webProxy; } }
-
-
+        public bool IsActive { get { return _isActive; } }
 
         public LoginProxy(string host,string port)
         {
@@ -26,6 +25,7 @@ namespace HttpClientLoginBot.Bll.Base
             uriBulider.Port = _port;
             _webProxy = new WebProxy();
             _webProxy.Address = uriBulider.Uri;
+            _isActive = true;
         }
 
         

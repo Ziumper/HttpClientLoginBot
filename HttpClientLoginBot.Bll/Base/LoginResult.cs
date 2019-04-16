@@ -21,5 +21,13 @@ namespace HttpClientLoginBot.Bll.Base {
             _password = password;
             _response = response;
         }
+
+        public void Save(string resultFileName)
+        {
+            if(IsSucces)
+            {
+
+            }
+        }
     }
 }
