@@ -36,7 +36,10 @@ namespace HttpClientLoginBot.Bll.Base
             }
 
             var response  = await httpClient.PostAsync(Uri, StringContent);
-            LoginResult result = new LoginResult(loginCredential.Username,loginCredential.Password, response);
+            LoginResult result = new LoginResult();
+            result.Response = response;
+            result.Username = loginCredential.Username;
+            result.Passwrod = loginCredential.Password;
             return result;
         }
     }
