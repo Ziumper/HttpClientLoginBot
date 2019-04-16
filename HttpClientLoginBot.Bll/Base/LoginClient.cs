@@ -11,8 +11,9 @@ namespace HttpClientLoginBot.Bll.Base
         public LoginProxy ActiveProxy { get; set; }
         public string Url { get; set; }
         public string RequestBody { get; set; }
+        public string MediaType { get; set; }  //"application/x-www-form-urlencoded
         public Uri Uri { get { return new Uri(Url); } }
-        public virtual StringContent StringContent {get {return new StringContent(RequestBody, Encoding.UTF8, "application/x-www-form-urlencoded");}}
+        public virtual StringContent StringContent {get {return new StringContent(RequestBody, Encoding.UTF8, MediaType);}}
 
         public LoginClient(string url, string requestBody)
         {
