@@ -41,6 +41,8 @@ namespace HttpClientLoginBot.Bll.Base
             result.Response = response;
             result.Username = loginCredential.Username;
             result.Passwrod = loginCredential.Password;
+            result.IsFinished = true;
+
             return result;
         }
     }

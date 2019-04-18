@@ -37,7 +37,7 @@ namespace HttpClientLoginBot.Bll.Base {
             foreach (var credential in _credentials) {
 
                 var result = new LoginResult();
-                while(!result.IsSucces)
+                while(!result.IsFinished)
                 {
                     if (UseProxy)
                     {
@@ -52,14 +52,16 @@ namespace HttpClientLoginBot.Bll.Base {
 
         private void SetProxy()
         {
+            if (_loginClient.ActiveProxy == null)
+            {
+                _loginClient.ActiveProxy = _proxyList.CurrentProxy;
+            }
+
             if (_loginClient.ActiveProxy != null)
             {
                 SetNextProxy();
             }
-            if (_loginClient.ActiveProxy == null)
-            {
-                SetCurrentProxy();
-            }
+            
         }
 
         private void SetNextProxy()
@@ -67,11 +69,7 @@ namespace HttpClientLoginBot.Bll.Base {
             _loginClient.ActiveProxy = _proxyList.NextProxy;
         }
 
-        private void SetCurrentProxy()
-        {
-            _loginClient.ActiveProxy = _proxyList.CurrentProxy;
-        }
-
+       
         
     }
 }

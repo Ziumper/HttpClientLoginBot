@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Text;
 
@@ -9,17 +10,23 @@ namespace HttpClientLoginBot.Bll.Base {
         public string Passwrod { get; set; }
         public HttpResponseMessage Response {get;set;}
         public bool IsSucces { get; set; }
-
+        public bool IsFinished { get; set; }
+      
         public LoginResult()
         {
             IsSucces = false;
+            
+
         }
 
-        public void Save(string resultFileName)
+        public void Save(string resultFilePath)
         {
             if(IsSucces)
             {
-                //TODO Save file with result;
+                using (StreamWriter outputFile = new StreamWriter(Path.Combine(resultFilePath), true))
+                {
+                    outputFile.WriteLine(Username + ":" + Passwrod);
+                }
             }
         }
 
