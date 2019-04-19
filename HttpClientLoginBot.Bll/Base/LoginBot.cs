@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 
 namespace HttpClientLoginBot.Bll.Base {
-    public abstract class LoginBot : ILoginBot {
+    public class LoginBot : ILoginBot {
         protected readonly string _pathToCredentials;
         protected readonly string _pathoToProxyFileList;
         protected readonly ILoginClient _loginClient;

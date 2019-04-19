@@ -6,13 +6,10 @@
 
   <ItemGroup>
     <Compile Remove="Metin2\**" />
-    <Compile Remove="Tibia\**" />
     <Compile Remove="Utils\**" />
     <EmbeddedResource Remove="Metin2\**" />
-    <EmbeddedResource Remove="Tibia\**" />
     <EmbeddedResource Remove="Utils\**" />
     <None Remove="Metin2\**" />
-    <None Remove="Tibia\**" />
     <None Remove="Utils\**" />
   </ItemGroup>
 
