@@ -11,6 +11,7 @@ namespace HttpClientLoginBot.Bll.Base {
         public HttpResponseMessage Response {get;set;}
         public bool IsSucces { get; set; }
         public bool IsFinished { get; set; }
+        public string Message { get; set; }
       
         public LoginResult()
         {

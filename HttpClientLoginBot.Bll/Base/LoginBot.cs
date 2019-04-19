@@ -8,7 +8,7 @@ namespace HttpClientLoginBot.Bll.Base {
         protected readonly string _pathToCredentials;
         protected readonly string _pathoToProxyFileList;
         protected readonly ILoginClient _loginClient;
-        protected List<LoginCredential> _credentials;
+        protected List<LoginData> _loginData;
         protected string _resultFileName;
         protected ProxyList _proxyList;
 
@@ -19,7 +19,7 @@ namespace HttpClientLoginBot.Bll.Base {
             string pathToProxyFileList,
             string resultFileName,
             ILoginClient loginClient,
-            List<LoginCredential> credentials,
+            List<LoginData> credentials,
             ProxyList proxyList
         ) {
             _pathoToProxyFileList = pathToProxyFileList;
@@ -27,14 +27,14 @@ namespace HttpClientLoginBot.Bll.Base {
             _resultFileName = resultFileName;
             
             _loginClient = loginClient;
-            _credentials = credentials;
+            _loginData = credentials;
             _proxyList = proxyList;
 
             UseProxy = true;
         }
 
         public async void Run () {
-            foreach (var credential in _credentials) {
+            foreach (var loginData in _loginData) {
 
                 var result = new LoginResult();
                 while(!result.IsFinished)
@@ -43,7 +43,7 @@ namespace HttpClientLoginBot.Bll.Base {
                     {
                         SetProxy();
                     }
-                    result = await _loginClient.Login(credential);
+                    result = await _loginClient.Login(loginData);
                 }
                 result.Save(_resultFileName);
             }

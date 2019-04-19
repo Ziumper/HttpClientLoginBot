@@ -10,29 +10,25 @@ namespace HttpClientLoginBot.Bll.Base
     {
         public LoginProxy ActiveProxy { get; set; }
         public string Url { get; set; }
-        public string RequestBody { get; set; }
         public string MediaType { get; set; }  //"application/x-www-form-urlencoded
         public Uri Uri { get { return new Uri(Url); } }
         public Encoding Encoding { get; set; }
-        public virtual StringContent StringContent {get {return new StringContent(RequestBody, Encoding, MediaType);}}
 
         public LoginClient(string url, string requestBody,string mediaType,Encoding encoding)
         {
             Url = url;
-            RequestBody = requestBody;
             MediaType = mediaType;
             Encoding = encoding;
         }
 
-        public LoginClient(string url, string requestBody)
+        public LoginClient(string url)
         {
             Url = url;
-            RequestBody = requestBody;
             MediaType = "application/x-www-form-urlencoded";
             Encoding = Encoding.UTF8;
         }
 
-        public virtual async Task<LoginResult> Login(LoginCredential loginCredential)
+        public virtual async Task<LoginResult> Login(LoginData loginData)
         {
             HttpClient httpClient = null;
 
@@ -47,14 +43,30 @@ namespace HttpClientLoginBot.Bll.Base
                 httpClient = new HttpClient();
             }
 
-            var response  = await httpClient.PostAsync(Uri, StringContent);
-            LoginResult result = new LoginResult();
-            result.Response = response;
-            result.Username = loginCredential.Username;
-            result.Passwrod = loginCredential.Password;
-            result.IsFinished = true;
+            try
+            {
+                StringContent stringContent = new StringContent(loginData.RequestBody, Encoding, MediaType);
+                var response = await httpClient.PostAsync(Uri, stringContent);
+                LoginResult result = new LoginResult();
+                result.Response = response;
+                result.Username = loginData.Username;
+                result.Passwrod = loginData.Password;
+                result.IsFinished = true;
+                if (response.IsSuccessStatusCode)
+                {
+                    result.IsSucces = true;
+                }
 
-            return result;
+                return result;
+            }
+            finally
+            {
+                httpClient.Dispose();
+            }
+
+            
         }
+
+        
     }
 }
