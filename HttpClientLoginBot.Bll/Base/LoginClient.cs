@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HttpClientLoginBot.Bll.Base
 {
-    public class LoginClient : ILoginClient
+    public class LoginClient
     {
         public LoginProxy ActiveProxy { get; set; }
         public string Url { get; set; }
@@ -47,6 +47,7 @@ namespace HttpClientLoginBot.Bll.Base
             {
                 StringContent stringContent = new StringContent(loginData.RequestBody, Encoding, MediaType);
                 var response = await httpClient.PostAsync(Uri, stringContent);
+
                 LoginResult result = new LoginResult();
                 result.Response = response;
                 result.Username = loginData.Username;

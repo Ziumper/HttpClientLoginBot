@@ -18,7 +18,7 @@ namespace HttpClientLoginBot.Bll.Tibia
         public override async Task<LoginResult> Login(LoginData loginCredential)
         {
             var result = await base.Login(loginCredential);
-
+            
             result.IsSucces = false;
 
             await ValidateResponse(result);
