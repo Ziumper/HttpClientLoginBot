@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HttpClientLoginBot.Bll.Tibia
 {
-    public class TibiaLoginClient : LoginClient
+    public class TibiaLoginClient : LoginClient,ILoginClient<TibiaLoginResult>
     {
         private readonly string _blockIpError;
 
@@ -15,9 +15,11 @@ namespace HttpClientLoginBot.Bll.Tibia
             _blockIpError = "Wrong account data has been entered from your IP address too often. You are unable to log in from this IP address for the next 30 minutes. Please wait.";
         }
 
-        public override async Task<LoginResult> Login(LoginData loginCredential)
+        public async new Task<TibiaLoginResult> Login(LoginData loginCredential)
         {
-            var result = await base.Login(loginCredential);
+            var baseResult = await base.Login(loginCredential);
+
+            var result = new TibiaLoginResult(baseResult);
             
             result.IsSucces = false;
 
@@ -26,7 +28,8 @@ namespace HttpClientLoginBot.Bll.Tibia
             return result;
         }
 
-        private async Task ValidateResponse(LoginResult result)
+
+        private async Task ValidateResponse(TibiaLoginResult result)
         {
             var isResponseSucces = result.Response.IsSuccessStatusCode;
             if (isResponseSucces)
@@ -43,13 +46,13 @@ namespace HttpClientLoginBot.Bll.Tibia
             }
         }
 
-        private void ValidateCookieHeaders(LoginResult result)
+        private void ValidateCookieHeaders(TibiaLoginResult result)
         {
             var headers = result.Response.Headers;
             ValidateIfContainsSecureSessionIdCookie(headers,result);
         }
 
-        private void ValidateIfContainsSecureSessionIdCookie(HttpResponseHeaders headers,LoginResult result)
+        private void ValidateIfContainsSecureSessionIdCookie(HttpResponseHeaders headers, TibiaLoginResult result)
         {
             IEnumerable<string> cookies = new List<string>();
             var haveValues = headers.TryGetValues("Set-Cookie", out cookies);
@@ -63,7 +66,7 @@ namespace HttpClientLoginBot.Bll.Tibia
             }
         }
 
-        private void ValidateIfCookieContainsSecureSessionId(string cookie,LoginResult result)
+        private void ValidateIfCookieContainsSecureSessionId(string cookie, TibiaLoginResult result)
         {
             if (cookie.Contains("SecureSessionID"))
             {
@@ -72,7 +75,7 @@ namespace HttpClientLoginBot.Bll.Tibia
             }
         }
         
-        private void SetSuccesAndFinishedResult(LoginResult result)
+        private void SetSuccesAndFinishedResult(TibiaLoginResult result)
         {
             result.IsFinished = true;
             result.IsSucces = true;

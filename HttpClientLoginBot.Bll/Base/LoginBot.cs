@@ -7,7 +7,7 @@ namespace HttpClientLoginBot.Bll.Base {
     public class LoginBot : ILoginBot {
         protected readonly string _pathToCredentials;
         protected readonly string _pathoToProxyFileList;
-        protected readonly ILoginClient _loginClient;
+        protected readonly ILoginClient<LoginResult> _loginClient;
         protected List<LoginData> _loginData;
         protected string _resultFileName;
         protected ProxyList _proxyList;
@@ -18,7 +18,7 @@ namespace HttpClientLoginBot.Bll.Base {
             string pathToCredentials,
             string pathToProxyFileList,
             string resultFileName,
-            ILoginClient loginClient,
+            ILoginClient<LoginResult> loginClient,
             List<LoginData> credentials,
             ProxyList proxyList
         ) {
