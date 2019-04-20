@@ -7,7 +7,7 @@ namespace HttpClientLoginBot.Bll.Tibia
 {
     public class TibiaLoginResult : LoginResult
     {
-        public bool IsProxyError { get; set; }
+        public bool IsBlockIpError { get; set; }
 
         public TibiaLoginResult(LoginResult result)
         {
@@ -15,7 +15,7 @@ namespace HttpClientLoginBot.Bll.Tibia
             IsSucces = result.IsSucces;
             Message = result.Message;
             Response = result.Response;
-            IsProxyError = false;
+            IsBlockIpError = false;
         }
     }
 }

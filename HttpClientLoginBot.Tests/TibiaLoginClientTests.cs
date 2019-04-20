@@ -13,10 +13,15 @@ namespace HttpClientLoginBot.Tests
     public class TibiaLoginClientTests
     {
         private string url = "https://www.tibia.com/account/?subtopic=accountmanagement";
-        private TibiaLoginData fakeLoginData = new TibiaLoginData
+        private TibiaLoginData fakeCorrectLoginData = new TibiaLoginData
         {
             Username = "TestAccountForGoats",
             Password = "TestAccountForGoats10Password"
+        };
+        private TibiaLoginData fakeWrongLoginData = new TibiaLoginData
+        {
+            Username = "TestLogin",
+            Password = "TestPassword"
         };
   
 
@@ -26,9 +31,9 @@ namespace HttpClientLoginBot.Tests
 
             var client = new TibiaLoginClient(url);
 
-            var result = await client.Login(fakeLoginData);
+            var result = await client.Login(fakeCorrectLoginData);
             
-            if(result.IsFinished == false)
+            if(result.IsBlockIpError)
             {
                 result.IsSucces = true;
             } 
@@ -36,10 +41,6 @@ namespace HttpClientLoginBot.Tests
             Assert.AreEqual(true, result.IsSucces);
         }
 
-        //[TestMethod]
-        //public async Task Login_For_Proxy_Error()
-        //{
-            
-        //}
+        
     }
 }

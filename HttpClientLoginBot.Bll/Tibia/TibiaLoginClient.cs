@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HttpClientLoginBot.Bll.Tibia
 {
-    public class TibiaLoginClient : LoginClient,ILoginClient<TibiaLoginResult>
+    public class TibiaLoginClient : LoginClient, ILoginClient<TibiaLoginResult>
     {
         private readonly string _blockIpError;
 
@@ -39,6 +39,7 @@ namespace HttpClientLoginBot.Bll.Tibia
                 if (containsBlockIpErrorMessage)
                 {
                     result.IsFinished = false;
+                    result.IsBlockIpError = true;
                     return;
                 }
 
