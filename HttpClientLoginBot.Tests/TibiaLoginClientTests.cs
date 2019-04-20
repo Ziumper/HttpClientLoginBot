@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace HttpClientLoginBot.Tests
 {
@@ -16,7 +17,7 @@ namespace HttpClientLoginBot.Tests
         private string fakePassword = "TestAccountForGoats10Password";
 
         [TestMethod]
-        public async void Login_With_Correct_Credentials_To_Tibia_Account()
+        public async Task Login_With_Correct_Credentials_To_Tibia_Account()
         {
             var credential = new TibiaLoginData();
             credential.Username = fakeUsername;
