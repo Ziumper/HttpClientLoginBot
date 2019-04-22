@@ -26,7 +26,6 @@ namespace HttpClientLoginBot.Tests
         private LoginProxy _httpLoginProxy = new LoginProxy("35.235.75.244", "3128");
         private LoginProxy _httpsLoginProxy = new LoginProxy("81.15.197.82", "31280");
 
-
         [TestMethod]
         public async Task Login_With_Correct_Credentials_To_Tibia_Account()
         {
