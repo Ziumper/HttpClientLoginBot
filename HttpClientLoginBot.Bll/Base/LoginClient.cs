@@ -60,6 +60,25 @@ namespace HttpClientLoginBot.Bll.Base
 
                 return result;
             }
+            catch (HttpRequestException e)
+            {
+                /*
+                 * The connection attempt failed because the 
+                 * linked page did not respond correctly 
+                 * after a set period of time or 
+                 * the connection created failed 
+                 * because the connected host did not respond
+                 * 
+                 * Proxy is not working.
+                 */
+                throw e;
+            }catch (Exception  e)
+            {
+                /*
+                 * Some diferent exception occured
+                 */
+                throw e;
+            }
             finally
             {
                 httpClient.Dispose();
