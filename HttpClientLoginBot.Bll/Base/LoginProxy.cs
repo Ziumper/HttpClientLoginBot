@@ -15,6 +15,7 @@ namespace HttpClientLoginBot.Bll.Base
 
         public WebProxy WebProxy { get { return _webProxy; } }
         public bool IsActive { get { return _isActive; } }
+        public string FullAddres { get { return string.Concat(_host, ":", _port); } }
 
         public LoginProxy(string host,string port)
         {

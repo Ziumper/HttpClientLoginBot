@@ -1,4 +1,5 @@
 ﻿using HttpClientLoginBot.Bll.Base;
+using HttpClientLoginBot.Bll.Tibia.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
@@ -39,8 +40,14 @@ namespace HttpClientLoginBot.Bll.Tibia
                 if (containsBlockIpErrorMessage)
                 {
                     result.IsFinished = false;
-                    result.IsBlockIpError = true;
-                    return;
+                    if(ActiveProxy != null)
+                    {
+                        throw new TibiaBlockIpException(ActiveProxy.FullAddres);
+                    }
+                    else
+                    {
+                        throw new TibiaBlockIpException();
+                    }
                 }
 
                 ValidateCookieHeaders(result);

@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 
 namespace HttpClientLoginBot.Bll.Base {
-    public class LoginBot : ILoginBot {
+    public abstract class LoginBot : ILoginBot {
         protected readonly string _pathToCredentials;
         protected readonly string _pathoToProxyFileList;
         protected readonly ILoginClient<LoginResult> _loginClient;
@@ -30,7 +30,7 @@ namespace HttpClientLoginBot.Bll.Base {
             _loginData = credentials;
             _proxyList = proxyList;
 
-            UseProxy = true;
+            UseProxy = false;
         }
 
         public async void Run () {

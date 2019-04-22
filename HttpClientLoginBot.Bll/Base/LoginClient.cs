@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HttpClientLoginBot.Bll.Base
 {
-    public class LoginClient: ILoginClient<LoginResult>
+    public abstract class LoginClient: ILoginClient<LoginResult>
     {
         public LoginProxy ActiveProxy { get; set; }
         public string Url { get; set; }
