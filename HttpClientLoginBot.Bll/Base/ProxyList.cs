@@ -9,10 +9,19 @@ namespace HttpClientLoginBot.Bll.Base
         protected readonly List<LoginProxy> _proxyList;
         protected int _currentProxyIndex;
 
+        public bool IsEndOfProxyList
+        {
+            get { return _currentProxyIndex == -1; }
+        }
+
         public LoginProxy CurrentProxy
         {
             get
             {
+                if(_currentProxyIndex == -1)
+                {
+                    return null;
+                }
                 return _proxyList[_currentProxyIndex];
             }
         }
@@ -24,7 +33,8 @@ namespace HttpClientLoginBot.Bll.Base
                 _currentProxyIndex++;
                if(_currentProxyIndex >= _proxyList.Count)
                {
-                    _currentProxyIndex = 0;
+                    _currentProxyIndex = -1;
+                    return null;
                } 
 
                return _proxyList[_currentProxyIndex];

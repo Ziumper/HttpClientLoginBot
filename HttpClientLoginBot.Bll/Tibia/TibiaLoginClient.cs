@@ -22,8 +22,6 @@ namespace HttpClientLoginBot.Bll.Tibia
 
             var result = new TibiaLoginResult(baseResult);
             
-            result.IsSucces = false;
-
             await ValidateResponse(result);
             
             return result;
@@ -39,7 +37,6 @@ namespace HttpClientLoginBot.Bll.Tibia
                 var containsBlockIpErrorMessage = content.Contains(_blockIpError);
                 if (containsBlockIpErrorMessage)
                 {
-                    result.IsFinished = false;
                     if(ActiveProxy != null)
                     {
                         throw new TibiaBlockIpException(ActiveProxy.FullAddres);
@@ -81,6 +78,8 @@ namespace HttpClientLoginBot.Bll.Tibia
                 SetSuccesAndFinishedResult(result);
                 return;
             }
+            result.IsFinished = true;
+            result.IsSucces = false;
         }
         
         private void SetSuccesAndFinishedResult(TibiaLoginResult result)

@@ -1,5 +1,6 @@
 ﻿using HttpClientLoginBot.Bll.Base;
 using HttpClientLoginBot.Bll.Tibia;
+using HttpClientLoginBot.Bll.Tibia.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -68,7 +69,24 @@ namespace HttpClientLoginBot.Tests
             Assert.AreEqual(true, result.IsSucces);
         }
 
-   
+        /*Only wrong credentials generate block ip exception */
+        [TestMethod]
+        [ExpectedException(typeof(TibiaBlockIpException))]
+        public async Task Login_Many_Times_To_Get_Tibia_Block_Ip_Exception()
+        {
+            try
+            {
+                var client = new TibiaLoginClient(_url);
+                for (var i = 0; i < 100; i++)
+                {
+                    var result = await client.Login(_fakeWrongLoginData);
+                }
+            }catch (TibiaBlockIpException e)
+            {
+                throw e;
+            }
+           
+        }
         
     }
 }

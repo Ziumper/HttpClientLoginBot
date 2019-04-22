@@ -5,36 +5,28 @@ using System.Text;
 
 namespace HttpClientLoginBot.Bll.Base {
     public abstract class LoginBot : ILoginBot {
-        protected readonly string _pathToCredentials;
-        protected readonly string _pathoToProxyFileList;
         protected readonly ILoginClient<LoginResult> _loginClient;
-        protected List<LoginData> _loginData;
+        protected List<LoginData> _loginDataList;
         protected string _resultFileName;
         protected ProxyList _proxyList;
 
         public bool UseProxy { get; set; }
 
         public LoginBot(
-            string pathToCredentials,
-            string pathToProxyFileList,
             string resultFileName,
             ILoginClient<LoginResult> loginClient,
             List<LoginData> credentials,
             ProxyList proxyList
         ) {
-            _pathoToProxyFileList = pathToProxyFileList;
-            _pathToCredentials = pathToCredentials;
             _resultFileName = resultFileName;
-            
             _loginClient = loginClient;
-            _loginData = credentials;
+            _loginDataList = credentials;
             _proxyList = proxyList;
-
             UseProxy = false;
         }
 
-        public async void Run () {
-            foreach (var loginData in _loginData) {
+        public async virtual void Run () {
+            foreach (var loginData in _loginDataList) {
 
                 var result = new LoginResult();
                 while(!result.IsFinished)
@@ -42,6 +34,9 @@ namespace HttpClientLoginBot.Bll.Base {
                     if (UseProxy)
                     {
                         SetProxy();
+                    } else
+                    {
+                        _loginClient.ActiveProxy = null;
                     }
                     result = await _loginClient.Login(loginData);
                 }
@@ -50,23 +45,44 @@ namespace HttpClientLoginBot.Bll.Base {
 
         }
 
-        private void SetProxy()
+        protected void SetProxy()
         {
-            if (_loginClient.ActiveProxy == null)
+            if (!_proxyList.IsEndOfProxyList)
             {
-                _loginClient.ActiveProxy = _proxyList.CurrentProxy;
+                InitalizeProxy();
+            } else
+            {
+                UnsetProxy();
             }
+            
+        }
 
-            if (_loginClient.ActiveProxy != null)
+        private void UnsetProxy()
+        {
+            _loginClient.ActiveProxy = null;
+        }
+
+        private void InitalizeProxy()
+        {
+            var isLoginClientProxySet = _loginClient.ActiveProxy != null;
+            if (!isLoginClientProxySet)
+            {
+                SetCurrentProxy();
+            }
+            else
             {
                 SetNextProxy();
             }
-            
         }
 
         private void SetNextProxy()
         {
             _loginClient.ActiveProxy = _proxyList.NextProxy;
+        }
+
+        private void SetCurrentProxy()
+        {
+            _loginClient.ActiveProxy = _proxyList.CurrentProxy;
         }
 
        
