@@ -8,34 +8,52 @@ namespace HttpClientLoginBot.Bll.Base
 {
     public abstract class LoginClient: ILoginClient<LoginResult>
     {
-        public LoginProxy ActiveProxy { get; set; }
+        protected LoginProxy _activeProxy;
+
         public string Url { get; set; }
         public string MediaType { get; set; }  //"application/x-www-form-urlencoded
         public Uri Uri { get { return new Uri(Url); } }
         public Encoding Encoding { get; set; }
+        public ProxyList ProxyList { get; set; }
 
-        public LoginClient(string url, string requestBody,string mediaType,Encoding encoding)
+        public LoginClient(string url,string mediaType,Encoding encoding,ProxyList proxyList)
         {
             Url = url;
             MediaType = mediaType;
             Encoding = encoding;
+            ProxyList = proxyList;
+
+            _activeProxy = null;
         }
 
         public LoginClient(string url)
         {
             Url = url;
+            InitlizeBase();
+        }
+
+        public LoginClient(string url, ProxyList proxyList)
+        {
+            Url = url;
+            ProxyList = proxyList;
+            InitlizeBase();
+        }
+
+        private void InitlizeBase() {
             MediaType = "application/x-www-form-urlencoded";
             Encoding = Encoding.UTF8;
+
+            _activeProxy = null;
         }
 
         public virtual async Task<LoginResult> Login(LoginData loginData)
         {
             HttpClient httpClient = null;
 
-            if (ActiveProxy != null)
+            if (_activeProxy != null)
             {
                 var httpHandler = new HttpClientHandler();
-                httpHandler.Proxy = ActiveProxy.WebProxy;
+                httpHandler.Proxy = _activeProxy.WebProxy;
                 httpHandler.UseProxy = true;
                 httpClient = new HttpClient(httpHandler);
             } else

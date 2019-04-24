@@ -37,7 +37,7 @@ namespace HttpClientLoginBot.Bll.Tibia
                 var containsBlockIpErrorMessage = content.Contains(_blockIpError);
                 if (containsBlockIpErrorMessage)
                 {
-                    if(ActiveProxy != null)
+                    if(_activeProxy != null)
                     {
                         throw new TibiaBlockIpException(ActiveProxy.FullAddres);
                     }
