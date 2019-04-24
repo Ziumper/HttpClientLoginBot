@@ -47,28 +47,6 @@ namespace HttpClientLoginBot.Tests
             Assert.AreEqual(false, result.IsSucces);
         }
 
-        [TestMethod]
-        public async Task Login_With_Http_Proxy_With_Correct_Credentials_To_Tibia_Account()
-        {
-            var client = new TibiaLoginClient(_url);
-
-            client.ActiveProxy = _httpLoginProxy;
-            var result = await client.Login(_fakeCorrectLoginData);
-
-            Assert.AreEqual(true, result.IsSucces);
-        }
-
-        [TestMethod] 
-        public async Task Login_With_Https_Proxy_With_Correct_Credentials_To_Tibia_Account()
-        {
-            var client = new TibiaLoginClient(_url);
-
-            client.ActiveProxy = _httpsLoginProxy;
-            var result = await client.Login(_fakeCorrectLoginData);
-
-            Assert.AreEqual(true, result.IsSucces);
-        }
-
         /*Only wrong credentials generate block ip exception */
         [TestMethod]
         [ExpectedException(typeof(TibiaBlockIpException))]

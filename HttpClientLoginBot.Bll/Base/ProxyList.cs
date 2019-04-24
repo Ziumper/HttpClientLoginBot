@@ -4,9 +4,10 @@ using System.Text;
 
 namespace HttpClientLoginBot.Bll.Base
 {
-    public class ProxyList
+    public class ProxyList 
     {
         protected readonly List<LoginProxy> _proxyList;
+        public int? Count { get { return _proxyList?.Count; } }
         protected int _currentProxyIndex;
 
         public bool IsEndOfProxyList
@@ -26,7 +27,7 @@ namespace HttpClientLoginBot.Bll.Base
             }
         }
 
-        public LoginProxy NextProxy
+        public LoginProxy Proxy
         {
             get
             {

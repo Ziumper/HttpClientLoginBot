@@ -16,8 +16,6 @@ namespace HttpClientLoginBot.Bll.Base {
         public LoginResult()
         {
             IsSucces = false;
-            
-
         }
 
         public void Save(string resultFilePath)

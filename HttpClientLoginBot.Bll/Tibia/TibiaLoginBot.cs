@@ -10,7 +10,7 @@ namespace HttpClientLoginBot.Bll.Tibia
 {
     public class TibiaLoginBot : LoginBot,ILoginBot
     {
-        public TibiaLoginBot(string resultFileName, ILoginClient<LoginResult> loginClient, List<LoginData> loginDataList, ProxyList proxyList) : base(resultFileName, loginClient, loginDataList, proxyList)
+        public TibiaLoginBot(string resultFileName, ILoginClient<LoginResult> loginClient, List<LoginData> loginDataList) : base(resultFileName, loginClient, loginDataList)
         {
           
         }

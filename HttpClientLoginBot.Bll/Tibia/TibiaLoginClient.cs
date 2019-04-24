@@ -39,7 +39,7 @@ namespace HttpClientLoginBot.Bll.Tibia
                 {
                     if(_activeProxy != null)
                     {
-                        throw new TibiaBlockIpException(ActiveProxy.FullAddres);
+                        throw new TibiaBlockIpException(_activeProxy.FullAddres);
                     }
                     else
                     {
