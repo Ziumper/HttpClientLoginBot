@@ -15,18 +15,6 @@ namespace HttpClientLoginBot.Bll.Base
             get { return _currentProxyIndex == -1; }
         }
 
-        public LoginProxy CurrentProxy
-        {
-            get
-            {
-                if(_currentProxyIndex == -1)
-                {
-                    return null;
-                }
-                return _proxyList[_currentProxyIndex];
-            }
-        }
-
         public LoginProxy Proxy
         {
             get

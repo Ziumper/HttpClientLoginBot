@@ -14,14 +14,15 @@ namespace HttpClientLoginBot.Bll.Base
         public Uri Uri { get { return new Uri(Url); } }
         public Encoding Encoding { get; set; }
         public ProxyList ProxyList { get; set; }
+        public Boolean UseProxy { get; set; }
 
-        public LoginClient(string url,string mediaType,Encoding encoding,ProxyList proxyList)
+        public LoginClient(string url,string mediaType,Encoding encoding,ProxyList proxyList,Boolean useProxy)
         {
             Url = url;
             MediaType = mediaType;
             Encoding = encoding;
             ProxyList = proxyList;
-
+            UseProxy = useProxy;
             _activeProxy = null;
         }
 
@@ -29,6 +30,15 @@ namespace HttpClientLoginBot.Bll.Base
         {
             Url = url;
             InitlizeBase();
+        }
+
+        public LoginClient(string url, ProxyList proxyList,Boolean useProxy)
+        {
+            InitlizeBase();
+            Url = url;
+            ProxyList = proxyList;
+            UseProxy = useProxy;
+           
         }
 
         public LoginClient(string url, ProxyList proxyList)
@@ -42,6 +52,7 @@ namespace HttpClientLoginBot.Bll.Base
             MediaType = "application/x-www-form-urlencoded";
             Encoding = Encoding.UTF8;
             _activeProxy = null;
+            UseProxy = false;
         }
 
         public virtual async Task<LoginResult> Login(LoginData loginData)
@@ -94,19 +105,26 @@ namespace HttpClientLoginBot.Bll.Base
 
         private HttpClient GetHttpClient()
         {
-            HttpClient httpClient = new HttpClient();
-
             var isProxyListMoreThenZero = ProxyList?.Count > 0;
-            if(isProxyListMoreThenZero)
+            if(isProxyListMoreThenZero && UseProxy)
             {
-                _activeProxy = ProxyList.Proxy;
-                var httpHandler = new HttpClientHandler();
-                httpHandler.Proxy = _activeProxy.WebProxy;
-                httpHandler.UseProxy = true;
-                httpClient = new HttpClient(httpHandler);
+                return GetHttpClientWithProxy();
             }
+
+            HttpClient httpClient = new HttpClient();
 
             return httpClient;
         }
+
+        private HttpClient GetHttpClientWithProxy()
+        {
+            _activeProxy = ProxyList.Proxy;
+            var httpHandler = new HttpClientHandler();
+            httpHandler.Proxy = _activeProxy.WebProxy;
+            httpHandler.UseProxy = true;
+            var httpClient = new HttpClient(httpHandler);
+            return httpClient;
+        }
+
     }
 }
