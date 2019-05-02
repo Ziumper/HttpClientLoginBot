@@ -10,7 +10,6 @@ namespace HttpClientLoginBot.Bll.Base {
         public string Passwrod { get; set; }
         public HttpResponseMessage Response {get;set;}
         public bool IsSucces { get; set; }
-        public bool IsFinished { get; set; }
         public string Message { get; set; }
       
         public LoginResult()

@@ -13,15 +13,15 @@ namespace HttpClientLoginBot.Bll.Base
         public string MediaType { get; set; }  //"application/x-www-form-urlencoded
         public Uri Uri { get { return new Uri(Url); } }
         public Encoding Encoding { get; set; }
-        public ProxyList ProxyList { get; set; }
+        public ProxyQueque ProxyQueque { get; set; }
         public Boolean UseProxy { get; set; }
 
-        public LoginClient(string url,string mediaType,Encoding encoding,ProxyList proxyList,Boolean useProxy)
+        public LoginClient(string url,string mediaType,Encoding encoding,ProxyQueque proxyList,Boolean useProxy)
         {
             Url = url;
             MediaType = mediaType;
             Encoding = encoding;
-            ProxyList = proxyList;
+            ProxyQueque = proxyList;
             UseProxy = useProxy;
             _activeProxy = null;
         }
@@ -32,19 +32,19 @@ namespace HttpClientLoginBot.Bll.Base
             InitlizeBase();
         }
 
-        public LoginClient(string url, ProxyList proxyList,Boolean useProxy)
+        public LoginClient(string url, ProxyQueque proxyList,Boolean useProxy)
         {
             InitlizeBase();
             Url = url;
-            ProxyList = proxyList;
+            ProxyQueque = proxyList;
             UseProxy = useProxy;
            
         }
 
-        public LoginClient(string url, ProxyList proxyList)
+        public LoginClient(string url, ProxyQueque proxyList)
         {
             Url = url;
-            ProxyList = proxyList;
+            ProxyQueque = proxyList;
             InitlizeBase();
         }
 
@@ -57,10 +57,17 @@ namespace HttpClientLoginBot.Bll.Base
 
         public virtual async Task<LoginResult> Login(LoginData loginData)
         {
+            if(UseProxy && ProxyQueque.IsEnd)
+            {
+                var result = new LoginResult();
+                result.IsSucces = false;
+                result.Message = "No proxy in proxy queque";
+                return result;
+            }
+
             HttpClient httpClient = GetHttpClient();
 
-            try
-            {
+            try {
                 StringContent stringContent = new StringContent(loginData.RequestBody, Encoding, MediaType);
                 var response = await httpClient.PostAsync(Uri, stringContent);
 
@@ -68,16 +75,15 @@ namespace HttpClientLoginBot.Bll.Base
                 result.Response = response;
                 result.Username = loginData.Username;
                 result.Passwrod = loginData.Password;
-                result.IsFinished = true;
                 if (response.IsSuccessStatusCode)
                 {
                     result.IsSucces = true;
                 }
 
+                ProxyQueque.ResetProxyQueque();
+
                 return result;
-            }
-            catch (HttpRequestException e)
-            {
+            } catch (HttpRequestException e) {
                 /*
                  * The connection attempt failed because the 
                  * linked page did not respond correctly 
@@ -85,18 +91,30 @@ namespace HttpClientLoginBot.Bll.Base
                  * the connection created failed 
                  * because the connected host did not respond
                  * 
-                 * Proxy is not working.
+                 * Proxy is not working or something else happend
                  */
-                throw e;
-            }catch (Exception  e)
-            {
+
+                var result = new LoginResult();
+                if (UseProxy)
+                {
+                    result = await Login(loginData);
+                    return result;
+                }
+
+                result.IsSucces = false;
+                result.Message = e.Message;
+                return result;
+            } catch (Exception  e) {
                 /*
                  * Some diferent exception occured
                  */
-                throw e;
+                var result = new LoginResult();
+                result.IsSucces = false;
+                result.Message = e.Message;
+                return result;
+                
             }
-            finally
-            {
+            finally {
                 httpClient.Dispose();
             }
 
@@ -105,8 +123,8 @@ namespace HttpClientLoginBot.Bll.Base
 
         private HttpClient GetHttpClient()
         {
-            var isProxyListMoreThenZero = ProxyList?.Count > 0;
-            if(isProxyListMoreThenZero && UseProxy)
+            
+            if(UseProxy)
             {
                 return GetHttpClientWithProxy();
             }
@@ -118,7 +136,7 @@ namespace HttpClientLoginBot.Bll.Base
 
         private HttpClient GetHttpClientWithProxy()
         {
-            _activeProxy = ProxyList.Proxy;
+            _activeProxy = ProxyQueque.Proxy;
             var httpHandler = new HttpClientHandler();
             httpHandler.Proxy = _activeProxy.WebProxy;
             httpHandler.UseProxy = true;
