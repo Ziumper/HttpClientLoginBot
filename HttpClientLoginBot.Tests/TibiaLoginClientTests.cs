@@ -44,7 +44,7 @@ namespace HttpClientLoginBot.Tests
         {
             var client = new TibiaLoginClient(_url, proxyQueque);
             var result = await client.Login(_fakeWrongLoginData);
-       
+
             Assert.AreEqual(false, result.IsSucces);
         }
 
@@ -61,12 +61,13 @@ namespace HttpClientLoginBot.Tests
                 {
                     var result = await client.Login(_fakeWrongLoginData);
                 }
-            }catch (TibiaQuequeProxyEnd e)
+            }
+            catch (TibiaQuequeProxyEnd e)
             {
                 throw e;
             }
-           
+
         }
-        
+
     }
 }

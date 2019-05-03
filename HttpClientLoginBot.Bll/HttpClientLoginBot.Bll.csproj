@@ -1,16 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Metin2\**" />
-    <Compile Remove="Utils\**" />
-    <EmbeddedResource Remove="Metin2\**" />
-    <EmbeddedResource Remove="Utils\**" />
-    <None Remove="Metin2\**" />
-    <None Remove="Utils\**" />
-  </ItemGroup>
 
 </Project>
