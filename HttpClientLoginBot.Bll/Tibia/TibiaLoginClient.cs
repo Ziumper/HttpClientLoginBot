@@ -1,4 +1,5 @@
 ﻿using HttpClientLoginBot.Bll.Base;
+using HttpClientLoginBot.Bll.Tibia.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
@@ -8,9 +9,7 @@ namespace HttpClientLoginBot.Bll.Tibia
 {
     public class TibiaLoginClient : LoginClient, ILoginClient<TibiaLoginResult>
     {
-        private readonly string _blockIpError;
-
-        public TibiaLoginClient(string url) : base(url)
+        public TibiaLoginClient(string url,ProxyQueque proxyQueque) : base(url,proxyQueque)
         {
             
         }
@@ -22,8 +21,36 @@ namespace HttpClientLoginBot.Bll.Tibia
             var result = new TibiaLoginResult(baseResult);
 
             await result.Validate();
-            
+
+            if (result.IsBlockIpErrorOccured)
+            {
+                SetToUseProxyForAvoidBlockIpError();
+                ResetActiveProxyToGetNextProxyInProxyQuequeToLogin();
+
+                if(ProxyQueque.IsEnd)
+                {
+                    ProxyQueque.ResetProxyQueque();
+                    throw new TibiaQuequeProxyEnd();
+                }
+
+                result = await Login(loginCredential);
+            }
+
             return result;
+        }
+
+        private void ResetActiveProxyToGetNextProxyInProxyQuequeToLogin()
+        {
+            var IsUsedProxyBefore = _activeProxy != null;
+            if (IsUsedProxyBefore)
+            {
+                _activeProxy = null;
+            }
+        }
+
+        private void SetToUseProxyForAvoidBlockIpError()
+        {
+            UseProxy = true;
         }
 
 

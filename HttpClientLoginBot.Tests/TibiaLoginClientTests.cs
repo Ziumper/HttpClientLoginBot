@@ -26,12 +26,13 @@ namespace HttpClientLoginBot.Tests
         };
         private LoginProxy _httpLoginProxy = new LoginProxy("35.235.75.244", "3128");
         private LoginProxy _httpsLoginProxy = new LoginProxy("81.15.197.82", "31280");
+        private ProxyQueque proxyQueque = new ProxyQueque(new List<LoginProxy>());
 
         [TestMethod]
         public async Task Login_With_Correct_Credentials_To_Tibia_Account()
         {
 
-            var client = new TibiaLoginClient(_url);
+            var client = new TibiaLoginClient(_url, proxyQueque);
 
             var result = await client.Login(_fakeCorrectLoginData);
 
@@ -41,7 +42,7 @@ namespace HttpClientLoginBot.Tests
         [TestMethod]
         public async Task Login_With_Wrong_Credential_To_Tibia_Account()
         {
-            var client = new TibiaLoginClient(_url);
+            var client = new TibiaLoginClient(_url, proxyQueque);
             var result = await client.Login(_fakeWrongLoginData);
        
             Assert.AreEqual(false, result.IsSucces);
@@ -49,17 +50,18 @@ namespace HttpClientLoginBot.Tests
 
         /*Only wrong credentials generate block ip exception */
         [TestMethod]
-        [ExpectedException(typeof(TibiaBlockIpException))]
+        [ExpectedException(typeof(TibiaQuequeProxyEnd))]
         public async Task Login_Many_Times_To_Get_Tibia_Block_Ip_Exception()
         {
+
             try
             {
-                var client = new TibiaLoginClient(_url);
+                var client = new TibiaLoginClient(_url, proxyQueque);
                 for (var i = 0; i < 100; i++)
                 {
                     var result = await client.Login(_fakeWrongLoginData);
                 }
-            }catch (TibiaBlockIpException e)
+            }catch (TibiaQuequeProxyEnd e)
             {
                 throw e;
             }

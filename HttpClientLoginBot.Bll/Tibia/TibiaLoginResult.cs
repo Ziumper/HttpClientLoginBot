@@ -29,14 +29,22 @@ namespace HttpClientLoginBot.Bll.Tibia
                 return;
             }
 
-            await ValidateResponse();
+            await CheckBlockIpError();
             if(!IsBlockIpErrorOccured)
             {
                 ValidateIfContainsSecureSessionIdCookie();
             }
+
+            if (IsSucces)
+            {
+                Message = "Logged Succesfully";
+            } else
+            {
+                Message = "Wrong credentials";
+            }
         }
 
-        private async Task ValidateResponse()
+        private async Task CheckBlockIpError()
         {
             var content = await Response.Content.ReadAsStringAsync();
             var containsBlockIpErrorMessage = content.Contains(_blockIpErrorText);
@@ -68,6 +76,7 @@ namespace HttpClientLoginBot.Bll.Tibia
                 IsSucces = true;
                 return;
             }
+            IsSucces = false;
         }
     }
 }

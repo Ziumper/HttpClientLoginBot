@@ -16,6 +16,11 @@ namespace HttpClientLoginBot.Bll.Base
         {
             get
             {
+                if(_proxyQueque == null)
+                {
+                    return true;
+                }
+
                 return _proxyQueque.Count == 0;
             }
         }
@@ -33,12 +38,17 @@ namespace HttpClientLoginBot.Bll.Base
         public ProxyQueque(List<LoginProxy> proxyQueque)
         {
             _proxyQueque = new Queue<LoginProxy>(proxyQueque);
+            _proxyList = new List<LoginProxy>();
         }
 
         public void ResetProxyQueque()
         {
             var tempList = new List<LoginProxy>();
-            tempList = AddLastElementOfProxyList(tempList);
+            if(_proxyList.Count > 0)
+            {
+                tempList = AddLastElementOfProxyList(tempList);
+            }
+            
             tempList = AddElementsOfProxyQueque(tempList);
             tempList = AddElementsOfProxyListWithoutLast(tempList);
 
