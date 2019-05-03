@@ -23,10 +23,10 @@ namespace HttpClientLoginBot.Bll.Base
             InitlizeBase();
         }
         
-        public LoginClient(string url, ProxyQueque proxyList)
+        public LoginClient(string url, ProxyQueque proxyQueque)
         {
             Url = url;
-            ProxyQueque = proxyList;
+            ProxyQueque = proxyQueque;
             InitlizeBase();
         }
 
@@ -37,7 +37,7 @@ namespace HttpClientLoginBot.Bll.Base
             UseProxy = false;
         }
 
-        public virtual async Task<LoginResult> Login(LoginData loginData)
+        public virtual async Task<LoginResult> LoginAsync(LoginData loginData)
         {
             HttpClient httpClient = GetHttpClient();
 

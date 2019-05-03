@@ -14,9 +14,9 @@ namespace HttpClientLoginBot.Bll.Tibia
             
         }
 
-        public async new Task<TibiaLoginResult> Login(LoginData loginCredential)
+        public async new Task<TibiaLoginResult> LoginAsync(LoginData loginCredential)
         {
-            var baseResult = await base.Login(loginCredential);
+            var baseResult = await base.LoginAsync(loginCredential);
 
             var result = new TibiaLoginResult(baseResult);
 
@@ -33,7 +33,7 @@ namespace HttpClientLoginBot.Bll.Tibia
                     throw new TibiaQuequeProxyEnd();
                 }
 
-                result = await Login(loginCredential);
+                result = await LoginAsync(loginCredential);
             }
 
             return result;

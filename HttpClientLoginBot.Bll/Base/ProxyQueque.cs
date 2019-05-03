@@ -35,7 +35,7 @@ namespace HttpClientLoginBot.Bll.Base
             }
         }
 
-        public ProxyQueque(List<LoginProxy> proxyQueque)
+        public ProxyQueque(IEnumerable<LoginProxy> proxyQueque)
         {
             _proxyQueque = new Queue<LoginProxy>(proxyQueque);
             _proxyList = new List<LoginProxy>();
