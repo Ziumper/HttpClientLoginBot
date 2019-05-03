@@ -16,6 +16,7 @@
             <RowDefinition Height="30" />
             <RowDefinition Height="25" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="50" />
         </Grid.RowDefinitions>
 
         <!-- Proxy -->
@@ -50,6 +51,10 @@
                 <DataGridTextColumn Header="Message" Width="1*" Binding="{Binding Message}" />
             </DataGrid.Columns>
         </DataGrid>
+     
+        <ProgressBar x:Name="PBLoading" HorizontalAlignment="Stretch" Height="20" Margin="10,10,10,10" Grid.Row="3" Minimum="0" Maximum="100" VerticalAlignment="Center" Grid.ColumnSpan="3"/>
+        <TextBox x:Name="LProcentage" BorderThickness="0"  Background="Transparent" Text="{Binding ElementName=PBLoading, Path=Value, StringFormat={}{0:0}%}" HorizontalAlignment="Center" Grid.Row="3" Grid.ColumnSpan="3" VerticalAlignment="Center" FontSize="12"/>
+
 
 
     </Grid>

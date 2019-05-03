@@ -60,10 +60,41 @@ namespace HttpClientLoginBot.Desktop
         {
             string url = "https://www.tibia.com/account/?subtopic=accountmanagement";
             ProxyQueque proxyQueque = new ProxyQueque(DGProxy.ItemsSource.OfType<LoginProxy>());
+            var proxyList = DGProxy.ItemsSource.OfType<LoginProxy>();
             TibiaLoginClient tibiaLoginClient = new TibiaLoginClient(url, proxyQueque);
             tibiaLoginClient.UseProxy = true;
+            var loginData = new TibiaLoginData();
+
+            var amount = proxyList.Count();
+            var current = 0;
 
 
+            //correct credentials for prevent blockip error
+            loginData.Username = "TestAccountForGoats";
+            loginData.Password = "TestAccountForGoats10Password";
+
+            List<LoginProxy> goodProxyList = new List<LoginProxy>();
+            foreach(var proxy in proxyList)
+            {
+                try
+                {
+                    current++;
+                    PBLoading.Value = (double) (100 * current) / amount;
+
+                    var result = await tibiaLoginClient.LoginAsync(loginData,proxy);
+                    if (result.IsSucces)
+                    {
+                        goodProxyList.Add(proxy);
+                    }
+                } catch (Exception)
+                {
+                    //do nothing
+                }
+                
+            }
+
+            DGProxy.ItemsSource = new ObservableCollection<LoginProxy>(goodProxyList);
+            MessageBox.Show("Proxy Tested");
         }
     }
 }
