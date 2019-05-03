@@ -57,16 +57,8 @@ namespace HttpClientLoginBot.Bll.Base
 
         public virtual async Task<LoginResult> Login(LoginData loginData)
         {
-            if(UseProxy && ProxyQueque.IsEnd)
-            {
-                var result = new LoginResult();
-                result.IsSucces = false;
-                result.Message = "No proxy in proxy queque";
-                return result;
-            }
-
             HttpClient httpClient = GetHttpClient();
-
+           
             try {
                 StringContent stringContent = new StringContent(loginData.RequestBody, Encoding, MediaType);
                 var response = await httpClient.PostAsync(Uri, stringContent);
@@ -83,36 +75,11 @@ namespace HttpClientLoginBot.Bll.Base
                 ProxyQueque.ResetProxyQueque();
 
                 return result;
-            } catch (HttpRequestException e) {
-                /*
-                 * The connection attempt failed because the 
-                 * linked page did not respond correctly 
-                 * after a set period of time or 
-                 * the connection created failed 
-                 * because the connected host did not respond
-                 * 
-                 * Proxy is not working or something else happend
-                 */
-
-                var result = new LoginResult();
-                if (UseProxy)
-                {
-                    result = await Login(loginData);
-                    return result;
-                }
-
-                result.IsSucces = false;
-                result.Message = e.Message;
-                return result;
             } catch (Exception  e) {
-                /*
-                 * Some diferent exception occured
-                 */
                 var result = new LoginResult();
                 result.IsSucces = false;
                 result.Message = e.Message;
                 return result;
-                
             }
             finally {
                 httpClient.Dispose();
@@ -124,7 +91,7 @@ namespace HttpClientLoginBot.Bll.Base
         private HttpClient GetHttpClient()
         {
             
-            if(UseProxy)
+            if(UseProxy && !ProxyQueque.IsEnd)
             {
                 return GetHttpClientWithProxy();
             }
