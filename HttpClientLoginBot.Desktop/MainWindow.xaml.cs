@@ -115,7 +115,7 @@ namespace HttpClientLoginBot.Desktop
         {
             ProxyQueque proxyQueque = new ProxyQueque();
             string url = "https://www.tibia.com/account/?subtopic=accountmanagement";
-            if(DGProxy.AlternationCount > 0)
+            if(DGProxy.Items.Count > 0)
             {
                 IEnumerable<LoginProxy> listOfProxy = DGProxy.ItemsSource.OfType<LoginProxy>();
                 proxyQueque = new ProxyQueque(listOfProxy);
