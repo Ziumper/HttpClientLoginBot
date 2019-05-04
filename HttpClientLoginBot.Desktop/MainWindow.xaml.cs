@@ -36,7 +36,8 @@ namespace HttpClientLoginBot.Desktop
             bool? canOpen = ofd.ShowDialog();
             if (canOpen == true)
             {
-                DataLoaderService dataLoaderService = new DataLoaderService();
+                DataService dataLoaderService = new DataService();
+                txtPathToProxyFile.Text = ofd.FileName;
                 var result = await dataLoaderService.LoadProxyList(ofd.FileName);
                 ObservableCollection<LoginProxy> collection = new ObservableCollection<LoginProxy>(result);
                 DGProxy.ItemsSource = collection;
@@ -49,7 +50,8 @@ namespace HttpClientLoginBot.Desktop
             bool? canOpen = ofd.ShowDialog();
             if (canOpen == true)
             {
-                DataLoaderService dataLoaderService = new DataLoaderService();
+                txtPathToCredentials.Text = ofd.FileName;
+                DataService dataLoaderService = new DataService();
                 var result = await dataLoaderService.LoadTibiaLoginData(ofd.FileName);
                 ObservableCollection<TibiaLoginData> collection = new ObservableCollection<TibiaLoginData>(result);
                 DGCredentials.ItemsSource = collection;
@@ -63,6 +65,8 @@ namespace HttpClientLoginBot.Desktop
             var proxyList = DGProxy.ItemsSource.OfType<LoginProxy>();
             TibiaLoginClient tibiaLoginClient = new TibiaLoginClient(url, proxyQueque);
             tibiaLoginClient.UseProxy = true;
+            var timeout = double.Parse(txtTimeout.Text);
+            tibiaLoginClient.TimeoutTime = timeout;
             var loginData = new TibiaLoginData();
 
             var amount = proxyList.Count();
@@ -95,6 +99,51 @@ namespace HttpClientLoginBot.Desktop
 
             DGProxy.ItemsSource = new ObservableCollection<LoginProxy>(goodProxyList);
             MessageBox.Show("Proxy Tested");
+            PBLoading.Value = 0;
+        }
+
+        private async void BtnSaveProxy_Click(object sender, RoutedEventArgs e)
+        {
+            var proxyList = DGProxy.ItemsSource;
+            var proxyFileNameToSave = txtPathToProxyFile.Text;
+            DataService dataService = new DataService();
+            await dataService.SaveProxyList(proxyFileNameToSave,proxyList.OfType<LoginProxy>());
+            MessageBox.Show("Proxy list saved");
+        }
+
+        private async void BtnLogin_Click(object sender, RoutedEventArgs e)
+        {
+            ProxyQueque proxyQueque = new ProxyQueque();
+            string url = "https://www.tibia.com/account/?subtopic=accountmanagement";
+            if(DGProxy.AlternationCount > 0)
+            {
+                IEnumerable<LoginProxy> listOfProxy = DGProxy.ItemsSource.OfType<LoginProxy>();
+                proxyQueque = new ProxyQueque(listOfProxy);
+            }
+            
+          
+            TibiaLoginClient tibiaLoginClient = new TibiaLoginClient(url, proxyQueque);
+            List<TibiaLoginData> loginDataList = new List<TibiaLoginData>(DGCredentials.ItemsSource.OfType<TibiaLoginData>());
+            PBLoading.Value = 0;
+            int current = 0;
+            int amount = loginDataList.Count;
+            foreach(var data in loginDataList)
+            {
+                current++;
+                PBLoading.Value = (double)(100 * current) / amount;
+                try
+                {
+                    var result = await tibiaLoginClient.LoginAsync(data);
+                    ResultsDG.Items.Add(result);
+                }catch (Exception exception)
+                {
+                    MessageBox.Show(exception.Message);
+                }
+                
+                
+            }
+
+            PBLoading.Value = 0;
         }
     }
 }

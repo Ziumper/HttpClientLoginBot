@@ -15,7 +15,7 @@ namespace HttpClientLoginBot.Bll.Base
         public Encoding Encoding { get; set; }
         public ProxyQueque ProxyQueque { get; set; }
         public bool UseProxy { get; set; }
-        public int TimeoutTime { get; set; }
+        public double TimeoutTime { get; set; }
 
         public LoginClient(string url)
         {
@@ -35,21 +35,37 @@ namespace HttpClientLoginBot.Bll.Base
             Encoding = Encoding.UTF8;
             _activeProxy = null;
             UseProxy = false;
-            TimeoutTime = 2;
+            TimeoutTime = 6000;
         }
 
         public virtual async Task<LoginResult> LoginAsync(LoginData loginData)
         {
-            HttpClient httpClient = GetHttpClient();
-            var result = await Login(loginData, httpClient);
-            return result;
+            using (HttpClient httpClient = GetHttpClient())
+            {
+                var result = await Login(loginData, httpClient);
+                return result;
+            }
+             
         }
 
         public virtual async Task<LoginResult> LoginAsync(LoginData loginData,LoginProxy loginProxy)
         {
-            HttpClient httpClient = GetHttpClientWithProxy(loginProxy);
-            var result = await Login(loginData, httpClient);
-            return result;
+            using (HttpClient httpClient = GetHttpClientWithProxy(loginProxy))
+            {
+                try
+                {
+                    var result = await Login(loginData, httpClient);
+                    return result;
+                }
+                catch (Exception exception)
+                {
+                    var result = new LoginResult(loginData);
+                    result.Message = exception.Message;
+                    result.IsSucces = false;
+                    return result;
+                }
+            }
+               
         }
 
         private async Task<LoginResult> Login(LoginData loginData,HttpClient httpClient)
@@ -62,7 +78,7 @@ namespace HttpClientLoginBot.Bll.Base
             LoginResult result = new LoginResult();
             result.Response = response;
             result.Username = loginData.Username;
-            result.Passwrod = loginData.Password;
+            result.Password = loginData.Password;
             if (response.IsSuccessStatusCode)
             {
                 result.IsSucces = true;

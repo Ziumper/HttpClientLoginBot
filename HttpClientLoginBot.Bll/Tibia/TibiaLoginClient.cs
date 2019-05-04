@@ -30,7 +30,11 @@ namespace HttpClientLoginBot.Bll.Tibia
                 if(ProxyQueque.IsEnd)
                 {
                     ProxyQueque.ResetProxyQueque();
-                    throw new TibiaQuequeProxyEnd();
+                    result.Username = loginCredential.Username;
+                    result.Password = loginCredential.Password;
+                    result.Message = "Proxy end";
+                    result.IsSucces = false;
+                    return result;
                 }
 
                 result = await LoginAsync(loginCredential);

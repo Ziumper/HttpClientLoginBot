@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HttpClientLoginBot.Common
 {
-    public class DataLoaderService
+    public class DataService
     {
         public async Task<List<LoginProxy>> LoadProxyList(string pathToFile)
         {
@@ -50,6 +50,28 @@ namespace HttpClientLoginBot.Common
 
 
             return result;
+        }
+
+        public async Task SaveProxyList(string pathToFile, IEnumerable<LoginProxy> proxyList)
+        {
+            await ClearFile(pathToFile);
+            using (var writer = new StreamWriter(pathToFile))
+            {
+                foreach (var proxy in proxyList)
+                {
+                    await writer.WriteLineAsync(proxy.FullAddres);
+                }
+                writer.Close();
+            }
+        }
+
+        public async Task ClearFile(string pathToFile)
+        {
+            using(var writer = new StreamWriter(pathToFile, false))
+            {
+                await writer.WriteLineAsync(string.Empty);
+                writer.Close();
+            }
         }
     }
 }

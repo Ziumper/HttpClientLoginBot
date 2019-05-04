@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HttpClientLoginBot.Desktop"
         mc:Ignorable="d"
-        Title="Http Client Login Bot" Height="450" Width="800">
+        Title="Http Client Login Bot" Height="800" Width="800">
     <Grid Background="WhiteSmoke">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" />
@@ -17,11 +17,14 @@
             <RowDefinition Height="25" />
             <RowDefinition Height="*" />
             <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="150" />
         </Grid.RowDefinitions>
 
         <!-- Proxy -->
         <Button x:Name="BtnLoadProxy" Content="Load proxy" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="0" Width="80" Margin="5,5,5,5" Click="BtnLoadProxy_Click"></Button>
         <Button x:Name="BtnTestProxy" Content="Test proxy" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="0" Width="70" Margin="90,5,5,5" Click="BtnTestProxy_Click" ></Button>
+        <Button x:Name="BtnSaveProxy" Content="Save proxy" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="0" Width="70" Margin="165,5,5,5" Click="BtnSaveProxy_Click" ></Button>
         <Label Content="Proxy Adres list" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" VerticalAlignment="Top"/>
         <DataGrid x:Name="DGProxy" Margin="10,10,10,10" Grid.Column="0" HorizontalAlignment="Stretch" Grid.Row="2" VerticalAlignment="Stretch"  ItemsSource="{Binding}" AutoGenerateColumns="False" >
             <DataGrid.Columns>
@@ -40,22 +43,29 @@
             </DataGrid.Columns>
         </DataGrid>
         <!-- Results -->
-        <Button x:Name="BtnLogin" Content="Login" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="2" Width="100" Margin="5,5,5,5"></Button>
+        <Button x:Name="BtnLogin" Content="Login" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="2" Width="100" Margin="5,5,5,5" Click="BtnLogin_Click"></Button>
         <Button x:Name="BtnSaveResults" Content="Save" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="2" Width="50" Margin="120,5,5,5"></Button>
         <Label Content="Results" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="2" VerticalAlignment="Top"/>
-        <DataGrid x:Name="ResultsDG" Margin="10,10,10,10" Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="2" VerticalAlignment="Stretch" >
+        <DataGrid x:Name="ResultsDG" Margin="10,10,10,10" Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="2" VerticalAlignment="Stretch"  ItemsSource="{Binding}" AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Login" Width="1*"  Binding="{Binding Login}"/>
+                <DataGridTextColumn Header="Login" Width="1*"  Binding="{Binding Username}"/>
                 <DataGridTextColumn Header="Password" Width="1*" Binding="{Binding Password}" />
-                <DataGridTextColumn Header="Success" Width="1*" Binding="{Binding IsSuccess}" />
+                <DataGridTextColumn Header="Success" Width="1*" Binding="{Binding IsSucces}" />
                 <DataGridTextColumn Header="Message" Width="1*" Binding="{Binding Message}" />
             </DataGrid.Columns>
         </DataGrid>
-     
-        <ProgressBar x:Name="PBLoading" HorizontalAlignment="Stretch" Height="20" Margin="10,10,10,10" Grid.Row="3" Minimum="0" Maximum="100" VerticalAlignment="Center" Grid.ColumnSpan="3"/>
-        <TextBox x:Name="LProcentage" BorderThickness="0"  Background="Transparent" Text="{Binding ElementName=PBLoading, Path=Value, StringFormat={}{0:0}%}" HorizontalAlignment="Center" Grid.Row="3" Grid.ColumnSpan="3" VerticalAlignment="Center" FontSize="12"/>
-
-
-
+        <!-- Loading bar -->
+        <ProgressBar x:Name="PBLoading" HorizontalAlignment="Stretch" Height="50" Margin="10,10,10,10" Grid.Row="3" Minimum="0" Maximum="100" VerticalAlignment="Center" Grid.ColumnSpan="3"/>
+        <TextBox x:Name="LProcentage" BorderThickness="0"  Background="Transparent" Text="{Binding ElementName=PBLoading, Path=Value, StringFormat={}{0:0}%}" HorizontalAlignment="Center" Grid.Row="3" Grid.ColumnSpan="3" VerticalAlignment="Center" FontSize="20"/>
+        <!-- Configs-->
+        <Label Content="Configuration" HorizontalAlignment="Center" Grid.Row="4" Margin="10,10,10,10" Grid.ColumnSpan="3" VerticalAlignment="Top"/>
+        <Label Content="Timeout in ms:" HorizontalAlignment="Left" Grid.Row="5" Margin="10,10,10,10" Grid.Column="0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtTimeout" Text="6000" Width="90" Margin="100,14,10,1"   Background="Transparent"  HorizontalAlignment="Left" Grid.Row="5" Grid.Column="0" VerticalAlignment="Top"/>
+        <Label Content="Proxy file path:" HorizontalAlignment="Left" Grid.Row="5" Margin="10,40,0,0" Grid.Column="0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtPathToProxyFile" Margin="100,44,20,0"   Background="Transparent"  HorizontalAlignment="Stretch" Grid.Row="5" Grid.ColumnSpan="3" VerticalAlignment="Top"/>
+        <Label Content="Credential file path:" HorizontalAlignment="Left" Grid.Row="5" Margin="10,64,0,0" Grid.Column="0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtPathToCredentials" Margin="130,68,20,0"   Background="Transparent"  HorizontalAlignment="Stretch" Grid.Row="5" Grid.ColumnSpan="3" VerticalAlignment="Top"/>
+        <Label Content="Results file path:" HorizontalAlignment="Left" Grid.Row="5" Margin="10,90,0,0" Grid.Column="0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtParhToResults" Margin="130,94,20,0"   Background="Transparent"  HorizontalAlignment="Stretch" Grid.Row="5" Grid.ColumnSpan="3" VerticalAlignment="Top"/>
     </Grid>
 </Window>
