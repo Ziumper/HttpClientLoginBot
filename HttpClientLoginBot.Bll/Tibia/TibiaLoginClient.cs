@@ -32,7 +32,7 @@ namespace HttpClientLoginBot.Bll.Tibia
                     ProxyQueque.ResetProxyQueque();
                     result.Username = loginCredential.Username;
                     result.Password = loginCredential.Password;
-                    result.Message = "Proxy end";
+                    result.Message = "Block ip error occured and proxy end";
                     result.IsSucces = false;
                     return result;
                 }

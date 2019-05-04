@@ -15,6 +15,8 @@ namespace HttpClientLoginBot.Bll.Tibia
 
         public TibiaLoginResult(LoginResult result)
         {
+            Username = result.Username;
+            Password = result.Password;
             IsSucces = result.IsSucces;
             Message = result.Message;
             Response = result.Response;

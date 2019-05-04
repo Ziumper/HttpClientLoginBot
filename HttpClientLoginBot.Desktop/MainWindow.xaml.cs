@@ -145,5 +145,13 @@ namespace HttpClientLoginBot.Desktop
 
             PBLoading.Value = 0;
         }
+
+        private async void BtnSaveResults_Click(object sender, RoutedEventArgs e)
+        {
+            var dataService = new DataService();
+            var results = DGProxy.ItemsSource.OfType<TibiaLoginResult>();
+            await dataService.SaveResults(txtParhToResults.Text,results);
+            MessageBox.Show("Results saved in "+ txtParhToResults.Text);
+        }
     }
 }

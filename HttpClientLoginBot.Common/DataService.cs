@@ -65,6 +65,18 @@ namespace HttpClientLoginBot.Common
             }
         }
 
+        public async Task SaveResults(string pathTofile, IEnumerable<TibiaLoginResult> data)
+        {
+            using(var writer = new StreamWriter(pathTofile))
+            {
+                foreach(var  dat in data)
+                {
+                    var lineToSave = dat.Username + ":" + dat.Password;
+                    await writer.WriteLineAsync(lineToSave);
+                }
+            }
+        }
+
         public async Task ClearFile(string pathToFile)
         {
             using(var writer = new StreamWriter(pathToFile, false))
