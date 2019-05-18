@@ -6,7 +6,7 @@ namespace HttpClientLoginBot.Bll.Base
     {
         string Url { get; set; }
         string MediaType { get; set; }
-        Task<T> Login(LoginData loginCredential);
+        Task<T> LoginAsync(LoginData loginCredential);
         ProxyQueque ProxyQueque { get; set; }
     }
 }

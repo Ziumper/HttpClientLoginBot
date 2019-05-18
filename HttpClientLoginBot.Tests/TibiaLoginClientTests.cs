@@ -34,18 +34,18 @@ namespace HttpClientLoginBot.Tests
 
             var client = new TibiaLoginClient(_url, proxyQueque);
 
-            var result = await client.Login(_fakeCorrectLoginData);
+            var result = await client.LoginAsync(_fakeCorrectLoginData);
 
-            Assert.AreEqual(true, result.IsSucces);
+            Assert.AreEqual(true, result.IsSuccess);
         }
 
         [TestMethod]
         public async Task Login_With_Wrong_Credential_To_Tibia_Account()
         {
             var client = new TibiaLoginClient(_url, proxyQueque);
-            var result = await client.Login(_fakeWrongLoginData);
+            var result = await client.LoginAsync(_fakeWrongLoginData);
 
-            Assert.AreEqual(false, result.IsSucces);
+            Assert.AreEqual(false, result.IsSuccess);
         }
 
         /*Only wrong credentials generate block ip exception */
@@ -59,7 +59,7 @@ namespace HttpClientLoginBot.Tests
                 var client = new TibiaLoginClient(_url, proxyQueque);
                 for (var i = 0; i < 100; i++)
                 {
-                    var result = await client.Login(_fakeWrongLoginData);
+                    var result = await client.LoginAsync(_fakeWrongLoginData);
                 }
             }
             catch (TibiaQuequeProxyEnd e)

@@ -14,9 +14,9 @@ namespace HttpClientLoginBot.Bll.Tibia
             
         }
 
-        public async new Task<TibiaLoginResult> Login(LoginData loginCredential)
+        public async new Task<TibiaLoginResult> LoginAsync(LoginData loginCredential)
         {
-            var baseResult = await base.Login(loginCredential);
+            var baseResult = await base.LoginAsync(loginCredential);
 
             var result = new TibiaLoginResult(baseResult);
 
@@ -24,16 +24,35 @@ namespace HttpClientLoginBot.Bll.Tibia
 
             if (result.IsBlockIpErrorOccured)
             {
+                if(ProxyQueque.IsEnd)
+                {
+                    result = await TryToLoginWithoutProxyWhenBlockIpErrorOccuredMeanTime(result, loginCredential);
+                    return result;
+                }
+
                 SetToUseProxyForAvoidBlockIpError();
                 ResetActiveProxyToGetNextProxyInProxyQuequeToLogin();
 
-                if(ProxyQueque.IsEnd)
-                {
-                    ProxyQueque.ResetProxyQueque();
-                    throw new TibiaQuequeProxyEnd();
-                }
+                result = await LoginAsync(loginCredential);
+            }
 
-                result = await Login(loginCredential);
+            return result;
+        }
+
+        private async Task<TibiaLoginResult> TryToLoginWithoutProxyWhenBlockIpErrorOccuredMeanTime(TibiaLoginResult result,LoginData loginCredential)
+        {
+            if (UseProxy)
+            {
+                UseProxy = false;
+                result = await LoginAsync(loginCredential);
+            }
+            else
+            {
+                ProxyQueque.ResetProxyQueque();
+                result.Username = loginCredential.Username;
+                result.Password = loginCredential.Password;
+                result.Message = "Block ip error occured";
+                result.IsSuccess = false;
             }
 
             return result;

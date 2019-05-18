@@ -35,7 +35,13 @@ namespace HttpClientLoginBot.Bll.Base
             }
         }
 
-        public ProxyQueque(List<LoginProxy> proxyQueque)
+        public ProxyQueque()
+        {
+            _proxyQueque = new Queue<LoginProxy>();
+            _proxyList = new List<LoginProxy>();
+        }
+
+        public ProxyQueque(IEnumerable<LoginProxy> proxyQueque)
         {
             _proxyQueque = new Queue<LoginProxy>(proxyQueque);
             _proxyList = new List<LoginProxy>();
@@ -86,7 +92,7 @@ namespace HttpClientLoginBot.Bll.Base
         {
             if(_proxyList.Count > 0)
             {
-                for(var i = 0; i <= _proxyList.Count; i++)
+                for(var i = 0; i < _proxyList.Count-1; i++)
                 {
                     tempList.Add(_proxyList[i]);
                 }

@@ -5,9 +5,11 @@ VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpClientLoginBot.Desktop", "HttpClientLoginBot.Desktop\HttpClientLoginBot.Desktop.csproj", "{2A5156B6-0B20-4553-9E7A-94ADA4AC7743}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpClientLoginBot.Bll", "HttpClientLoginBot.Bll\HttpClientLoginBot.Bll.csproj", "{2A9D0B48-A5C6-4F4A-B8C5-38FEF103DC28}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HttpClientLoginBot.Bll", "HttpClientLoginBot.Bll\HttpClientLoginBot.Bll.csproj", "{2A9D0B48-A5C6-4F4A-B8C5-38FEF103DC28}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpClientLoginBot.Tests", "HttpClientLoginBot.Tests\HttpClientLoginBot.Tests.csproj", "{F60D4560-E8F6-41CA-BE79-11E789D533EF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpClientLoginBot.Common", "HttpClientLoginBot.Common\HttpClientLoginBot.Common.csproj", "{641DAB2A-DC72-4B66-AE2B-5816E6A0DE4A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpClientLoginBot.Tests", "HttpClientLoginBot.Tests\HttpClientLoginBot.Tests.csproj", "{24E491B6-0857-47A8-91AC-F3A6AF46789F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +25,14 @@ Global
 		{2A9D0B48-A5C6-4F4A-B8C5-38FEF103DC28}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A9D0B48-A5C6-4F4A-B8C5-38FEF103DC28}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A9D0B48-A5C6-4F4A-B8C5-38FEF103DC28}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F60D4560-E8F6-41CA-BE79-11E789D533EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F60D4560-E8F6-41CA-BE79-11E789D533EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F60D4560-E8F6-41CA-BE79-11E789D533EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F60D4560-E8F6-41CA-BE79-11E789D533EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{641DAB2A-DC72-4B66-AE2B-5816E6A0DE4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{641DAB2A-DC72-4B66-AE2B-5816E6A0DE4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{641DAB2A-DC72-4B66-AE2B-5816E6A0DE4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{641DAB2A-DC72-4B66-AE2B-5816E6A0DE4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24E491B6-0857-47A8-91AC-F3A6AF46789F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24E491B6-0857-47A8-91AC-F3A6AF46789F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24E491B6-0857-47A8-91AC-F3A6AF46789F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24E491B6-0857-47A8-91AC-F3A6AF46789F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

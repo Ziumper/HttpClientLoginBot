@@ -4,10 +4,10 @@ using System.Text;
 
 namespace HttpClientLoginBot.Bll.Base
 {
-    public interface LoginData
+    public class LoginData
     {
-        string Username { get; set; }
-        string Password { get; set; }
-        string RequestBody { get; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public virtual string RequestBody { get; }
     }
 }

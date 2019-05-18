@@ -15,7 +15,9 @@ namespace HttpClientLoginBot.Bll.Tibia
 
         public TibiaLoginResult(LoginResult result)
         {
-            IsSucces = result.IsSucces;
+            Username = result.Username;
+            Password = result.Password;
+            IsSuccess = result.IsSuccess;
             Message = result.Message;
             Response = result.Response;
             IsBlockIpErrorOccured = false;
@@ -24,18 +26,19 @@ namespace HttpClientLoginBot.Bll.Tibia
 
         public async Task Validate()
         {
-            if (!IsSucces)
+            if (!IsSuccess)
             {
                 return;
             }
 
             await CheckBlockIpError();
-            if(!IsBlockIpErrorOccured)
+            if(IsBlockIpErrorOccured)
             {
-                ValidateIfContainsSecureSessionIdCookie();
+                return;
             }
-
-            if (IsSucces)
+           
+            ValidateIfContainsSecureSessionIdCookie();
+            if (IsSuccess)
             {
                 Message = "Logged Succesfully";
             } else
@@ -73,10 +76,10 @@ namespace HttpClientLoginBot.Bll.Tibia
         {
             if (cookie.Contains("SecureSessionID"))
             {
-                IsSucces = true;
+                IsSuccess = true;
                 return;
             }
-            IsSucces = false;
+            IsSuccess = false;
         }
     }
 }

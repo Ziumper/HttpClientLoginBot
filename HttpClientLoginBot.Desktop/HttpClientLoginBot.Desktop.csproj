@@ -94,5 +94,15 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HttpClientLoginBot.Bll\HttpClientLoginBot.Bll.csproj">
+      <Project>{2A9D0B48-A5C6-4F4A-B8C5-38FEF103DC28}</Project>
+      <Name>HttpClientLoginBot.Bll</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HttpClientLoginBot.Common\HttpClientLoginBot.Common.csproj">
+      <Project>{641DAB2A-DC72-4B66-AE2B-5816E6A0DE4A}</Project>
+      <Name>HttpClientLoginBot.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
