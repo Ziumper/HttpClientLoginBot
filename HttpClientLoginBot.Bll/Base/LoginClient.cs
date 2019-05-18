@@ -70,25 +70,57 @@ namespace HttpClientLoginBot.Bll.Base
 
         private async Task<LoginResult> Login(LoginData loginData,HttpClient httpClient)
         {
-            StringContent stringContent = new StringContent(loginData.RequestBody, Encoding, MediaType);
-            var response = await httpClient.PostAsync(Uri, stringContent);
-
-            httpClient.Dispose();
-
-            LoginResult result = new LoginResult();
-            result.Response = response;
-            result.Username = loginData.Username;
-            result.Password = loginData.Password;
-            if (response.IsSuccessStatusCode)
+            try
             {
-                result.IsSuccess = true;
+                StringContent stringContent = new StringContent(loginData.RequestBody, Encoding, MediaType);
+                var response = await httpClient.PostAsync(Uri, stringContent);
+
+                httpClient.Dispose();
+
+                LoginResult result = new LoginResult();
+                result.Response = response;
+                result.Username = loginData.Username;
+                result.Password = loginData.Password;
+                if (response.IsSuccessStatusCode)
+                {
+                    result.IsSuccess = true;
+                    return result;
+                }
+
+                result.IsSuccess = false;
+                result.Message = "Failed on trying to login,check response for more information";
                 return result;
+            }catch (ArgumentNullException)
+            {
+                var result = new LoginResult(loginData);
+                result.Message = "Request was null";
+                result.IsSuccess = false;
+                return result;
+            }catch (InvalidOperationException)
+            {
+                var result = new LoginResult(loginData);
+                result.Message = "The request message was already sent by the HttpClient instance";
+                result.IsSuccess = false;
+                return result;
+            }catch(HttpRequestException)
+            {
+                var result = new LoginResult(loginData);
+                result.Message = "The request failed due to an underlying issue such as network connectivity, DNS failure, server certificate validation or timeout.";
+                result.IsSuccess = false;
+                return result;
+            }catch(TaskCanceledException)
+            {
+                var result = new LoginResult(loginData);
+                result.Message = "The request timed-out or the user canceled the request's ";
+                result.IsSuccess = false;
+                return result;
+            }catch(Exception exception)
+            {
+                throw exception;
             }
 
-            result.IsSuccess = false;
-            result.Message = "Failed on trying to login,check response for more information";
 
-            return result;
+
         }
  
         private HttpClient GetHttpClient()

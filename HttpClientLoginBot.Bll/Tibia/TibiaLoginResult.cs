@@ -32,11 +32,12 @@ namespace HttpClientLoginBot.Bll.Tibia
             }
 
             await CheckBlockIpError();
-            if(!IsBlockIpErrorOccured)
+            if(IsBlockIpErrorOccured)
             {
-                ValidateIfContainsSecureSessionIdCookie();
+                return;
             }
-
+           
+            ValidateIfContainsSecureSessionIdCookie();
             if (IsSuccess)
             {
                 Message = "Logged Succesfully";

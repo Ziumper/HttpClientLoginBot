@@ -92,7 +92,7 @@ namespace HttpClientLoginBot.Bll.Base
         {
             if(_proxyList.Count > 0)
             {
-                for(var i = 0; i <= _proxyList.Count; i++)
+                for(var i = 0; i < _proxyList.Count-1; i++)
                 {
                     tempList.Add(_proxyList[i]);
                 }

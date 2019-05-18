@@ -107,15 +107,22 @@ namespace HttpClientLoginBot.Desktop
 
         private async void BtnSaveProxy_Click(object sender, RoutedEventArgs e)
         {
-            var proxyList = DGProxy.ItemsSource;
-            var proxyFileNameToSave = txtPathToProxyFile.Text;
-            DataService dataService = new DataService();
-            await dataService.SaveProxyList(proxyFileNameToSave,proxyList.OfType<LoginProxy>());
-            MessageBox.Show("Proxy list saved");
+            OpenFileDialog ofd = new OpenFileDialog();
+            bool? canOpen = ofd.ShowDialog();
+            if (canOpen == true)
+            {
+                var proxyList = DGProxy.ItemsSource;
+                var proxyFileNameToSave = ofd.FileName;
+                DataService dataService = new DataService();
+                await dataService.SaveProxyList(proxyFileNameToSave, proxyList.OfType<LoginProxy>());
+                MessageBox.Show("Proxy list saved");
+            }
         }
+            
 
         private async void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
+            ResultsDG.Items.Clear();
             ProxyQueque proxyQueque = new ProxyQueque();
             string url = "https://www.tibia.com/account/?subtopic=accountmanagement";
             if(DGProxy.Items.Count > 0)
@@ -134,6 +141,7 @@ namespace HttpClientLoginBot.Desktop
             {
                 current++;
                 PBLoading.Value = (double)(100 * current) / amount;
+                lblAction.Content = "Current action: login with credentials: Username: " + data.Username + " Password: " + data.Password;
                 try
                 {
                     var result = await tibiaLoginClient.LoginAsync(data);
@@ -142,8 +150,6 @@ namespace HttpClientLoginBot.Desktop
                 {
                     MessageBox.Show(exception.Message);
                 }
-                
-                
             }
 
             PBLoading.Value = 0;
