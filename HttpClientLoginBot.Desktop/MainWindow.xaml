@@ -45,7 +45,7 @@
         <!-- Results -->
         <Button x:Name="BtnLogin" Content="Login" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="2" Width="100" Margin="5,5,5,5" Click="BtnLogin_Click"></Button>
         <Button x:Name="BtnSaveResults" Content="Save True" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="2" Width="60" Margin="110,5,5,5" Click="BtnSaveResults_Click"></Button>
-        <Button x:Name="BtnSaveResultsFalse" Content="Save False" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="2" Width="60" Margin="175,5,5,5" ></Button>
+        <Button x:Name="BtnSaveResultsFalse" Content="Save False" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="2" Width="60" Margin="175,5,5,5" Click="BtnSaveResultsFalse_Click" ></Button>
         <Label Content="Results" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="2" VerticalAlignment="Top"/>
         <DataGrid x:Name="ResultsDG" Margin="10,10,10,10" Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="2" VerticalAlignment="Stretch"  ItemsSource="{Binding}" AutoGenerateColumns="False">
             <DataGrid.Columns>

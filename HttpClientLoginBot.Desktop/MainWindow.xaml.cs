@@ -157,10 +157,30 @@ namespace HttpClientLoginBot.Desktop
 
         private async void BtnSaveResults_Click(object sender, RoutedEventArgs e)
         {
-            var dataService = new DataService();
-            var results = DGProxy.ItemsSource.OfType<TibiaLoginResult>();
-            await dataService.SaveResults(txtParhToResults.Text,results);
-            MessageBox.Show("Results saved in "+ txtParhToResults.Text);
+            OpenFileDialog ofd = new OpenFileDialog();
+            bool? canOpen = ofd.ShowDialog();
+            if (canOpen == true)
+            {
+                var dataService = new DataService();
+                var results = ResultsDG.Items.OfType<TibiaLoginResult>();
+
+                await dataService.SaveResults(ofd.FileName, results,true);
+                MessageBox.Show("Results saved in " + ofd.FileName);
+            }
+           
+        }
+
+        private async void BtnSaveResultsFalse_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            bool? canOpen = ofd.ShowDialog();
+            if (canOpen == true)
+            {
+                var dataService = new DataService();
+                var results = ResultsDG.Items.OfType<TibiaLoginResult>();
+                await dataService.SaveResults(ofd.FileName, results);
+                MessageBox.Show("Results saved in " + ofd.FileName);
+            }
         }
     }
 }
