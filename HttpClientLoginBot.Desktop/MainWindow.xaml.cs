@@ -60,6 +60,7 @@ namespace HttpClientLoginBot.Desktop
 
         private async void BtnTestProxy_Click(object sender, RoutedEventArgs e)
         {
+            BtnTestProxy.IsEnabled = false;
             string url = "https://www.tibia.com/account/?subtopic=accountmanagement";
             ProxyQueque proxyQueque = new ProxyQueque(DGProxy.ItemsSource.OfType<LoginProxy>());
             var proxyList = DGProxy.ItemsSource.OfType<LoginProxy>();
@@ -84,9 +85,9 @@ namespace HttpClientLoginBot.Desktop
                 {
                     current++;
                     PBLoading.Value = (double) (100 * current) / amount;
-
+                    lblAction.Content = "Current action: Testing proxy addres: [" + proxy.FullAddres + "]";
                     var result = await tibiaLoginClient.LoginAsync(loginData,proxy);
-                    if (result.IsSucces)
+                    if (result.IsSuccess)
                     {
                         goodProxyList.Add(proxy);
                     }
@@ -99,6 +100,8 @@ namespace HttpClientLoginBot.Desktop
 
             DGProxy.ItemsSource = new ObservableCollection<LoginProxy>(goodProxyList);
             MessageBox.Show("Proxy Tested");
+            BtnTestProxy.IsEnabled = true;
+            lblAction.Content = "Current action: None";
             PBLoading.Value = 0;
         }
 

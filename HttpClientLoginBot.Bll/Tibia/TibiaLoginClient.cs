@@ -33,7 +33,7 @@ namespace HttpClientLoginBot.Bll.Tibia
                     result.Username = loginCredential.Username;
                     result.Password = loginCredential.Password;
                     result.Message = "Block ip error occured and proxy end";
-                    result.IsSucces = false;
+                    result.IsSuccess = false;
                     return result;
                 }
 

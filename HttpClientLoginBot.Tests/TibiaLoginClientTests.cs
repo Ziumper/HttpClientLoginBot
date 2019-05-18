@@ -36,7 +36,7 @@ namespace HttpClientLoginBot.Tests
 
             var result = await client.LoginAsync(_fakeCorrectLoginData);
 
-            Assert.AreEqual(true, result.IsSucces);
+            Assert.AreEqual(true, result.IsSuccess);
         }
 
         [TestMethod]
@@ -45,7 +45,7 @@ namespace HttpClientLoginBot.Tests
             var client = new TibiaLoginClient(_url, proxyQueque);
             var result = await client.LoginAsync(_fakeWrongLoginData);
 
-            Assert.AreEqual(false, result.IsSucces);
+            Assert.AreEqual(false, result.IsSuccess);
         }
 
         /*Only wrong credentials generate block ip exception */

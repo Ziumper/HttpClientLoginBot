@@ -61,7 +61,7 @@ namespace HttpClientLoginBot.Bll.Base
                 {
                     var result = new LoginResult(loginData);
                     result.Message = exception.Message;
-                    result.IsSucces = false;
+                    result.IsSuccess = false;
                     return result;
                 }
             }
@@ -81,11 +81,11 @@ namespace HttpClientLoginBot.Bll.Base
             result.Password = loginData.Password;
             if (response.IsSuccessStatusCode)
             {
-                result.IsSucces = true;
+                result.IsSuccess = true;
                 return result;
             }
 
-            result.IsSucces = false;
+            result.IsSuccess = false;
             result.Message = "Failed on trying to login,check response for more information";
 
             return result;

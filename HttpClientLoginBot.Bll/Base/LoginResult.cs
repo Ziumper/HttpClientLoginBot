@@ -9,24 +9,24 @@ namespace HttpClientLoginBot.Bll.Base {
         public string Username { get; set; }
         public string Password { get; set; }
         public HttpResponseMessage Response {get;set;}
-        public bool IsSucces { get; set; }
+        public bool IsSuccess { get; set; }
         public string Message { get; set; }
       
         public LoginResult()
         {
-            IsSucces = false;
+            IsSuccess = false;
         }
 
         public LoginResult(LoginData loginData)
         {
             Username = loginData.Username;
             Password = loginData.Password;
-            IsSucces = false;
+            IsSuccess = false;
         }
 
         public void Save(string resultFilePath)
         {
-            if(IsSucces)
+            if(IsSuccess)
             {
                 using (StreamWriter outputFile = new StreamWriter(Path.Combine(resultFilePath), true))
                 {
